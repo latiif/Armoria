@@ -21,6 +21,36 @@
     [els[i], els[i-1]] = [els[i-1], els[i]];
     e.stopPropagation();
   }
+
+  const CHARGE = "charge";
+  const ORDINARY = "ordinary";
+  const ElementTypes = [
+    CHARGE,
+    ORDINARY
+  ];
+
+  // getElementType returns the type of the current element
+  function getElementType(el) {
+    return ElementTypes.find(elementType => el.hasOwnProperty(elementType));
+  }
+
+  const Randomizers = new Map();
+    Randomizers[CHARGE] =  function(charge) {
+      charge.t = "azure";
+      charge.charge="mullet";
+    };
+
+    Randomizers[ORDINARY] = function(ordinary) {
+      ordinary.t= "or";
+    }
+
+  const randomize = (e) => {
+    console.log("Randomizing ", el);
+    let elementType = getElementType(el);
+    Randomizers[elementType](el)
+    els = els;
+    e.stopPropagation();
+  };
 </script>
 
 <span>
@@ -41,6 +71,10 @@
   {/if}
   <svg on:click={remove} title="Remove" use:tooltip>
     <use href="#remove-icon"></use>
+  </svg>
+
+   <svg on:click={randomize} title="Randomize" use:tooltip>
+    <use href="#dice-icon" />
   </svg>
 </span>
 
