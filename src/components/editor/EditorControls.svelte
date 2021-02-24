@@ -1,5 +1,6 @@
 <script>
   import {tooltip} from './../../scripts/tooltip';
+  import {generate} from './../../scripts/generator'
   export let els, el, i;
 
   const remove = e => {
@@ -35,9 +36,16 @@
   }
 
   const Randomizers = new Map();
-    Randomizers[CHARGE] =  function(charge) {
-      charge.t = "azure";
-      charge.charge="mullet";
+    Randomizers[CHARGE] = function(charge) {
+      let randomized = generate()
+      while (!randomized.hasOwnProperty("charges") && randomized.charges == undefined && randomized.charges.length == 0){
+        randomized = generate()
+      }
+      console.log(randomized);
+      charge.charge = randomized.charges[0].charge;
+      charge.size = randomized.charges[0].size;
+      charge.t = randomized.charges[0].t;
+      charge.p = randomized.charges[0].p;
     };
 
     Randomizers[ORDINARY] = function(ordinary) {
@@ -45,7 +53,6 @@
     }
 
   const randomize = (e) => {
-    console.log("Randomizing ", el);
     let elementType = getElementType(el);
     Randomizers[elementType](el)
     els = els;
